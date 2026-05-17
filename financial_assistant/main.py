@@ -1,13 +1,9 @@
-# main.py
+from fastapi import FastAPI
+from models.schemas import ETFRequest
+from core.etf_engine import generate_portfolio
 
-import sys
-import os
+app = FastAPI()
 
-# Add the project directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from financial_assistant.app import FinancialAssistantApp
-
-if __name__ == "__main__":
-    app = FinancialAssistantApp()
-    app.run()
+@app.post("/recommend")
+def recommend(req: ETFRequest):
+    return generate_portfolio(req)
